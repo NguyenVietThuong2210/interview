@@ -36,7 +36,7 @@ RUN python manage.py collectstatic --noinput || true
 # Make entrypoint script executable
 COPY scripts/entrypoint.sh /app/scripts/
 RUN chmod +x /app/scripts/entrypoint.sh
-dos2unix /app/scripts/entrypoint.sh
+# RUN dos2unix /app/scripts/entrypoint.sh
 
 # Expose port 8000
 EXPOSE 8000
