@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',  # For token blacklisting
     'corsheaders',  # CORS handling
-    'app',
+    'api',
 ]
 
 MIDDLEWARE = [
