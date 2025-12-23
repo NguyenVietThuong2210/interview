@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libpq-dev \
     postgresql-client \
+    libmariadb-dev \
+    libmariadb-dev-compat \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
