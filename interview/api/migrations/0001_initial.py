@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 ('tags', models.CharField(blank=True, help_text='Comma-separated tags', max_length=200)),
                 ('created_by', models.ForeignKey(blank=True, help_text='User who created this record', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)s_created', to=settings.AUTH_USER_MODEL)),
                 ('updated_by', models.ForeignKey(blank=True, help_text='User who last updated this record', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)s_updated', to=settings.AUTH_USER_MODEL)),
-                ('topic', models.ForeignKey(help_text='Topic/Category of the question', on_delete=django.db.models.deletion.CASCADE, related_name='questions', to='app.topic')),
+                ('topic', models.ForeignKey(help_text='Topic/Category of the question', on_delete=django.db.models.deletion.CASCADE, related_name='questions', to='api.topic')),
             ],
             options={
                 'ordering': ['-created_at'],
