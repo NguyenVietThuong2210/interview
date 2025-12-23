@@ -34,7 +34,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DEBUG=False
+      - DEBUG=True
       - SECRET_KEY=django-insecure-change-this-in-production-use-strong-key
       - DATABASE_URL=postgresql://interview_user:interview_pass_2024@db:5432/interview_db
       - ALLOWED_HOSTS=localhost,127.0.0.1,web
