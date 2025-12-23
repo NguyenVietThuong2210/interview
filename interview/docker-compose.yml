@@ -28,13 +28,13 @@ services:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-    expose:
-      - 8000
+    # expose:
+    #   - 8000
     environment:
       - DEBUG=False
       - SECRET_KEY=django-insecure-change-this-in-production-use-strong-key
       - DATABASE_URL=postgresql://interview_user:interview_pass_2024@db:5432/interview_db
-      - ALLOWED_HOSTS=localhost,127.0.0.1,web
+      - ALLOWED_HOSTS=localhost,127.0.0.1,interview_web,web
       - POSTGRES_DB=interview_db
       - POSTGRES_USER=interview_user
       - POSTGRES_PASSWORD=interview_pass_2024
