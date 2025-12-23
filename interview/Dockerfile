@@ -11,11 +11,10 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
-    pkg-config \
-    libmysqlclient-dev \
-    postgresql-client \
-    libpq-dev \
     gcc \
+    pkg-config \
+    libpq-dev \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
