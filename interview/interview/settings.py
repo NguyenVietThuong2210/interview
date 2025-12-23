@@ -43,12 +43,12 @@ MIDDLEWARE = [
 
 # ASVS V2: Authentication
 # V2.1: Password Security Requirements
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.Argon2PasswordHasher',  # Most secure
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-]
+# PASSWORD_HASHERS = [
+#     'django.contrib.auth.hashers.Argon2PasswordHasher',  # Most secure
+#     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+#     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+#     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+# ]
 
 # V2.1.1: Passwords are at least 12 characters
 # V2.1.7: Passwords are checked against breached password lists
