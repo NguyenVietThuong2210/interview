@@ -22,9 +22,8 @@ services:
 
   web:
     build: .
-    container_name: interview_web
+    # container_name: interview_web
     command: gunicorn interview.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 60
-    # command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
       - static_volume:/app/staticfiles
@@ -49,18 +48,18 @@ services:
     networks:
       - interview_network
 
-  # nginx:
-  #   image: nginx:latest
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-  #     - static_volume:/app/staticfiles:ro
-  #     - media_volume:/app/media:ro
-  #   depends_on:
-  #     - web
-  #   networks:
-  #     - interview_network
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:ro
+    depends_on:
+      - web
+    networks:
+      - interview_network
 
 
   # nginx:
