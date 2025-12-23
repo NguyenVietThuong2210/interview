@@ -28,8 +28,10 @@ services:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-    # expose:
-    #   - 8000
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
     environment:
       - DEBUG=False
       - SECRET_KEY=django-insecure-change-this-in-production-use-strong-key
