@@ -35,7 +35,7 @@ RUN mkdir -p /app/staticfiles
 RUN python manage.py collectstatic --noinput || true
 
 # Make entrypoint script executable
-COPY scripts/entrypoint.sh /app/scripts/
+COPY interview/scripts/entrypoint.sh /app/scripts/
 RUN chmod +x /app/scripts/entrypoint.sh
 # RUN dos2unix /app/scripts/entrypoint.sh
 
