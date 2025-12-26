@@ -29,7 +29,7 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Create staticfiles directory
+# Create static directory
 RUN mkdir -p /app/staticfiles
 
 # Collect static files

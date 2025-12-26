@@ -107,7 +107,7 @@ services:
       context: .
       dockerfile: export_service/Dockerfile
     container_name: export_worker
-    command: celery -A tasks worker --loglevel=info --concurrency=2
+    command: celery -A export_service.tasks worker --loglevel=info --concurrency=2
     # volumes:
     #   - ./export_service:/app
     # environment:

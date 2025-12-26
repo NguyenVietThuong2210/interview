@@ -2,7 +2,6 @@ import asyncio
 import json
 import aio_pika
 import logging
-from celery import Celery
 import orjson
 from shared.services.redis_service import redis_service
 from shared.settings import EMAIL_SERVICE_2_HOST, EMAIL_SERVICE_2_PORT, MAX_READ_BYTES, RABBITMQ_EXPORT_QUEUE, RABBITMQ_HOST, RABBITMQ_PASS, RABBITMQ_PORT, RABBITMQ_USER
@@ -15,12 +14,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Celery app
-celery_app = Celery(
-    'export_tasks',
-    broker=f'pyamqp://{RABBITMQ_USER}:{RABBITMQ_PASS}@{RABBITMQ_HOST}:{RABBITMQ_PORT}//',
-    backend='redis://redis:6379/1'
-)
 
 class ExportService:
     def __init__(self):
@@ -103,7 +96,7 @@ class ExportService:
             topic_data = json.loads(data)
             
             # Create Celery task for Excel generation
-            from .tasks import generate_excel_task
+            from export_service.tasks import generate_excel_task
             result = generate_excel_task.delay(topic_data)
             
             # Wait for task to complete (or use result.get() with timeout)

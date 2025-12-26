@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy project files
-COPY export_service /app/
+COPY export_service /app/export_service/
 COPY shared /app/shared/
 
 # Install Python dependencies
@@ -24,4 +24,4 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "app.py"]
+CMD ["python", "export_service/app.py"]

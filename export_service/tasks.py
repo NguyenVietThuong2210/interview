@@ -1,7 +1,8 @@
 import json
 import logging
+from celery import Celery
 from shared.services.redis_service import redis_service
-from .app import celery_app
+from shared.settings import RABBITMQ_HOST, RABBITMQ_PASS, RABBITMQ_PORT, RABBITMQ_USER
 from shared.minio import minio_client
 from datetime import datetime
 from shared.services.excel_generator import ExcelGenerator
@@ -13,6 +14,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Celery app
+celery_app = Celery(
+    'export_tasks',
+    broker=f'pyamqp://{RABBITMQ_USER}:{RABBITMQ_PASS}@{RABBITMQ_HOST}:{RABBITMQ_PORT}//',
+    imports=['export_service.tasks'],
+    backend='redis://redis:6379/1'
+)
 
 @celery_app.task(name='generate_excel_task')
 def generate_excel_task(topic_data: dict):
