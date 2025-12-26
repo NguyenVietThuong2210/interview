@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from .....shared.services import redis_service
+from shared.services import redis_service
 
 class Command(BaseCommand):
     help = 'Setup email configuration in Redis'
