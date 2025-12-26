@@ -10,7 +10,7 @@ class Command(BaseCommand):
             "smtp_host": "smtp.sendgrid.net",
             "smtp_port": 587,
             "smtp_user": "apikey",
-            "smtp_password": "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",
+            "smtp_password": "pass", # "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",
             "from_email": "no-reply-simba@yopmail.com",
             "from_name": "Interview API"
         }
