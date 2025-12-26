@@ -86,10 +86,6 @@ services:
     container_name: export_service
     # volumes:
     #   - ./export_service:/app
-    environment:
-      REDIS_HOST: redis
-      RABBITMQ_HOST: rabbitmq
-      MINIO_HOST: minio:9000
     depends_on:
       redis:
         condition: service_healthy
@@ -110,10 +106,6 @@ services:
     command: celery -A tasks worker --loglevel=info --concurrency=2
     # volumes:
     #   - ./export_service:/app
-    environment:
-      REDIS_HOST: redis
-      RABBITMQ_HOST: rabbitmq
-      MINIO_HOST: minio:9000
     depends_on:
       - redis
       - rabbitmq

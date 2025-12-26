@@ -31,6 +31,7 @@ class ExportService:
     async def connect(self):
         """Connect to RabbitMQ"""
         connection_url = f"amqp://{RABBITMQ_USER}:{RABBITMQ_PASS}@{RABBITMQ_HOST}:{RABBITMQ_PORT}/"
+        logger.info(f"Connecting to RabbitMQ: {connection_url}")
         self.connection = await aio_pika.connect_robust(connection_url)
         self.channel = await self.connection.channel()
         await self.channel.set_qos(prefetch_count=1)
