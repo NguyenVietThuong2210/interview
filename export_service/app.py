@@ -4,7 +4,7 @@ import aio_pika
 import logging
 from celery import Celery
 import orjson
-from shared.services import redis_service
+from shared.services.redis_service import redis_service
 from shared.settings import EMAIL_SERVICE_2_HOST, EMAIL_SERVICE_2_PORT, MAX_READ_BYTES, RABBITMQ_EXPORT_QUEUE, RABBITMQ_HOST, RABBITMQ_PASS, RABBITMQ_PORT, RABBITMQ_USER
 
 

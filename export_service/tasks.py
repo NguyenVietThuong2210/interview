@@ -1,6 +1,6 @@
 import json
 import logging
-from shared.services import redis_service
+from shared.services.redis_service import redis_service
 from .app import celery_app
 from shared.minio import minio_client
 from datetime import datetime
