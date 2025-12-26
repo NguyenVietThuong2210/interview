@@ -184,6 +184,9 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  redis_data:
+  rabbitmq_data:
+  minio_data:
 
 networks:
   interview_network:
