@@ -20,14 +20,14 @@ RUN apt-get update && apt-get install -y \
     libmariadb-dev-compat \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy project files
+COPY interview /app/
+COPY shared /app/shared/
+
 # Install Python dependencies
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
-
-COPY shared /app/shared/
-# Copy project files
-COPY interview /app/
 
 # Create staticfiles directory
 RUN mkdir -p /app/staticfiles
