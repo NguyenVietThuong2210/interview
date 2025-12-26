@@ -1,8 +1,9 @@
 from datetime import datetime
 import pika
 import json
-from django.conf import settings
 import logging
+
+from shared.settings import RABBITMQ_EXPORT_QUEUE, RABBITMQ_HOST, RABBITMQ_PASS, RABBITMQ_PORT, RABBITMQ_USER
 
 logger = logging.getLogger(__name__)
 
@@ -15,12 +16,12 @@ class RabbitMQService:
     def connect(self):
         """Connect to RabbitMQ"""
         credentials = pika.PlainCredentials(
-            settings.RABBITMQ_USER,
-            settings.RABBITMQ_PASS
+            RABBITMQ_USER,
+            RABBITMQ_PASS
         )
         parameters = pika.ConnectionParameters(
-            host=settings.RABBITMQ_HOST,
-            port=settings.RABBITMQ_PORT,
+            host=RABBITMQ_HOST,
+            port=RABBITMQ_PORT,
             credentials=credentials
         )
         self.connection = pika.BlockingConnection(parameters)
@@ -28,7 +29,7 @@ class RabbitMQService:
         
         # Declare queue
         self.channel.queue_declare(
-            queue=settings.RABBITMQ_EXPORT_QUEUE,
+            queue=RABBITMQ_EXPORT_QUEUE,
             durable=True
         )
     
@@ -43,7 +44,7 @@ class RabbitMQService:
         try:
             self.channel.basic_publish(
                 exchange='',
-                routing_key=settings.RABBITMQ_EXPORT_QUEUE,
+                routing_key=RABBITMQ_EXPORT_QUEUE,
                 body=json.dumps(message),
                 properties=pika.BasicProperties(
                     delivery_mode=2,  # Make message persistent
