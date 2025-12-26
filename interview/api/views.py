@@ -8,7 +8,7 @@ from rest_framework.permissions import (
 )
 from django.contrib.auth.models import User
 
-from shared.services import rabbitmq_service, redis_service
+from ...shared.services import rabbitmq_service, redis_service
 from .models import Topic, Question
 from .serializers import (
     TopicSerializer,
