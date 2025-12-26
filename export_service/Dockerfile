@@ -15,10 +15,13 @@ RUN apt-get update && apt-get install -y \
     libmariadb-dev-compat \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY shared /app/shared/
+# Copy project files
 COPY export_service /app/
+COPY shared /app/shared/
+
+# Install Python dependencies
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 CMD ["python", "app.py"]
