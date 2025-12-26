@@ -103,7 +103,7 @@ class ExportService:
             topic_data = json.loads(data)
             
             # Create Celery task for Excel generation
-            from tasks import generate_excel_task
+            from .tasks import generate_excel_task
             result = generate_excel_task.delay(topic_data)
             
             # Wait for task to complete (or use result.get() with timeout)

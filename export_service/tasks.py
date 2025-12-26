@@ -14,7 +14,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-@celery_app.task(name='export_tasks.generate_excel')
+@celery_app.task(name='generate_excel_task')
 def generate_excel_task(topic_data: dict):
     """Generate Excel and upload to MinIO"""
     try:
