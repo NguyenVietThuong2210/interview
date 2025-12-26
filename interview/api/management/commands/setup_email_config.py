@@ -7,11 +7,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Email configuration
         email_config = {
-            "smtp_host": "smtp.gmail.com",
+            "smtp_host": "smtp.sendgrid.net",
             "smtp_port": 587,
-            "smtp_user": "your-email@gmail.com",
-            "smtp_password": "your-app-password",
-            "from_email": "noreply@interview-api.com",
+            "smtp_user": "apikey",
+            "smtp_password": "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",
+            "from_email": "no-reply-simba@yopmail.com",
             "from_name": "Interview API"
         }
         redis_service.save_email_config(email_config)
