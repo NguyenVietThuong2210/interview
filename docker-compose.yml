@@ -129,7 +129,7 @@ services:
     container_name: interview_web
     command: gunicorn interview.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 60
     volumes:
-      - ./interview:/app
+      # - ./interview:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     expose:
