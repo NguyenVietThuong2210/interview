@@ -8,7 +8,7 @@ from rest_framework.permissions import (
 )
 from django.contrib.auth.models import User
 
-from shared.services import rabbitmq_service, redis_service
+# from shared.services import rabbitmq_service, redis_service
 from .models import Topic, Question
 from .serializers import (
     TopicSerializer,
@@ -138,9 +138,9 @@ class QuestionViewSet(viewsets.ModelViewSet):
         questions = Question.objects.filter(topic_id=topic_id).values(
             'id', 'text', 'difficulty', 'expected_answer', 'tags'
         )
-        redis_service.save_topic_question_data(topic_id, list(questions))
+        # redis_service.save_topic_question_data(topic_id, list(questions))
         # Send message to export service
-        rabbitmq_service.send_export_message(topic_id, action="export")
+        # rabbitmq_service.send_export_message(topic_id, action="export")
         logger.info(f"Question created: ID {question.id} by {self.request.user.username}")
     
     def perform_update(self, serializer):
@@ -152,9 +152,9 @@ class QuestionViewSet(viewsets.ModelViewSet):
         questions = Question.objects.filter(topic_id=topic_id).values(
             'id', 'text', 'difficulty', 'expected_answer', 'tags'
         )
-        redis_service.save_topic_question_data(topic_id, list(questions))
+        # redis_service.save_topic_question_data(topic_id, list(questions))
         # Send message to export service
-        rabbitmq_service.send_export_message(topic_id, action="export")
+        # rabbitmq_service.send_export_message(topic_id, action="export")
         logger.info(f"Question updated: ID {question.id} by {self.request.user.username}")
         
     @action(detail=False, methods=["get"])
