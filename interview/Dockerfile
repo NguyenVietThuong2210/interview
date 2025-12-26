@@ -26,7 +26,7 @@ RUN pip install --upgrade pip && \
 
 # Copy project files
 COPY interview /app/
-# COPY shared /app/shared/
+COPY shared /app/shared/
 
 # Create staticfiles directory
 RUN mkdir -p /app/staticfiles

@@ -20,6 +20,108 @@ services:
       timeout: 5s
       retries: 5
 
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: interview_redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - interview_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: interview_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - interview_network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MinIO
+  minio:
+    image: minio/minio:latest
+    container_name: interview_minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - interview_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Export Service (Async)
+  export_service:
+    build: 
+      context: .
+      dockerfile: export_service/Dockerfile
+    container_name: export_service
+    volumes:
+      - ./export_service:/app
+    environment:
+      REDIS_HOST: redis
+      RABBITMQ_HOST: rabbitmq
+      MINIO_HOST: minio:9000
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - interview_network
+    restart: unless-stopped
+
+  # Export Celery Worker
+  export_worker:
+    build: 
+      context: .
+      dockerfile: export_service/Dockerfile
+    container_name: export_worker
+    command: celery -A tasks worker --loglevel=info --concurrency=2
+    volumes:
+      - ./export_service:/app
+    environment:
+      REDIS_HOST: redis
+      RABBITMQ_HOST: rabbitmq
+      MINIO_HOST: minio:9000
+    depends_on:
+      - redis
+      - rabbitmq
+      - minio
+    networks:
+      - interview_network
+    restart: unless-stopped
+
   web:
     build: 
       context: .

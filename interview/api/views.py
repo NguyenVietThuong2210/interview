@@ -7,6 +7,8 @@ from rest_framework.permissions import (
     IsAuthenticated,
 )
 from django.contrib.auth.models import User
+
+from shared.services import rabbitmq_service, redis_service
 from .models import Topic, Question
 from .serializers import (
     TopicSerializer,
@@ -18,6 +20,8 @@ from .serializers import (
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+import logging
+logger = logging.getLogger(__name__)
 
 class VersionAPIView(APIView):
     permission_classes = [AllowAny]  # optional
@@ -126,11 +130,33 @@ class QuestionViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
-
+        """Create question and trigger export"""
+        question = serializer.save(created_by=self.request.user)
+        
+        # Save to Redis
+        topic_id = question.topic.id
+        questions = Question.objects.filter(topic_id=topic_id).values(
+            'id', 'text', 'difficulty', 'expected_answer', 'tags'
+        )
+        redis_service.save_topic_question_data(topic_id, list(questions))
+        # Send message to export service
+        rabbitmq_service.send_export_message(topic_id, action="export")
+        logger.info(f"Question created: ID {question.id} by {self.request.user.username}")
+    
     def perform_update(self, serializer):
-        serializer.save(updated_by=self.request.user)
-
+        """Update question and trigger export"""
+        question = serializer.save(updated_by=self.request.user)
+        
+        # Update Redis
+        topic_id = question.topic.id
+        questions = Question.objects.filter(topic_id=topic_id).values(
+            'id', 'text', 'difficulty', 'expected_answer', 'tags'
+        )
+        redis_service.save_topic_question_data(topic_id, list(questions))
+        # Send message to export service
+        rabbitmq_service.send_export_message(topic_id, action="export")
+        logger.info(f"Question updated: ID {question.id} by {self.request.user.username}")
+        
     @action(detail=False, methods=["get"])
     def random(self, request):
         """Get a random question"""
