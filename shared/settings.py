@@ -17,4 +17,9 @@ RABBITMQ_EXPORT_QUEUE = 'export_queue'
 MAX_READ_BYTES = 1024 * 1024  # 1MB
 
 EMAIL_SERVICE_2_HOST = os.getenv('EMAIL_SERVICE_2_HOST', default='email_service_2')
-EMAIL_SERVICE_2_PORT = os.getenv('EMAIL_SERVICE_2_PORT', default=9000)
+EMAIL_SERVICE_2_PORT = os.getenv('EMAIL_SERVICE_2_PORT', default=8888)
+EMAIL_SERVICE_2_SOCKET_BACKLOG = 10
+
+MINIO_HOST = "minio:9000"
+MINIO_ACCESS_KEY = "minioadmin"
+MINIO_SECRET_KEY = "minioadmin"

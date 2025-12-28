@@ -122,6 +122,98 @@ services:
       - interview_network
     restart: unless-stopped
 
+  # Email Service (Async)
+  email_service_1:
+    build: 
+      context: .
+      dockerfile: email_service_1/Dockerfile
+    container_name: email_service_1
+    # volumes:
+    #   - ./email_service_1:/app
+    # environment:
+    #   REDIS_HOST: redis
+    #   RABBITMQ_HOST: rabbitmq
+    #   MINIO_HOST: minio:9000
+    ports:
+      - "8889:8889"
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - interview_network
+    restart: unless-stopped
+
+  # Email Celery Worker
+  email_worker_1:
+    build: 
+      context: .
+      dockerfile: email_service_1/Dockerfile
+    container_name: email_worker_1
+    command: celery -A email_service_1.tasks worker --loglevel=info --concurrency=2
+    # volumes:
+    #   - ./email_service_1:/app
+    # environment:
+    #   REDIS_HOST: redis
+    #   RABBITMQ_HOST: rabbitmq
+    #   MINIO_HOST: minio:9000
+    depends_on:
+      - redis
+      - rabbitmq
+      - minio
+    networks:
+      - interview_network
+    restart: unless-stopped
+
+  # Email Service (Async)
+  email_service_2:
+    build: 
+      context: .
+      dockerfile: email_service_2/Dockerfile
+    container_name: email_service_2
+    # volumes:
+    #   - ./email_service_2:/app
+    # environment:
+    #   REDIS_HOST: redis
+    #   RABBITMQ_HOST: rabbitmq
+    #   MINIO_HOST: minio:9000
+    ports:
+      - "8888:8888"
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - interview_network
+    restart: unless-stopped
+
+  # Email Celery Worker
+  email_worker_2:
+    build: 
+      context: .
+      dockerfile: email_service_2/Dockerfile
+    container_name: email_worker_2
+    command: celery -A email_service_2.tasks worker --loglevel=info --concurrency=2
+    # volumes:
+    #   - ./email_service_2:/app
+    # environment:
+    #   REDIS_HOST: redis
+    #   RABBITMQ_HOST: rabbitmq
+    #   MINIO_HOST: minio:9000
+    depends_on:
+      - redis
+      - rabbitmq
+      - minio
+    networks:
+      - interview_network
+    restart: unless-stopped
+
   web:
     build: 
       context: .

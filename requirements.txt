@@ -44,3 +44,4 @@ redis==5.0.1
 minio==7.2.0
 orjson
 pika
+sendgrid
