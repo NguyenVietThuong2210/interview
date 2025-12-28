@@ -45,23 +45,23 @@ def send_email_task(
         # Email content
         subject = f"[SERVICE-{service_id}] Interview Questions Export - Topic {file_info['topic_id']}"
         body = f"""
-Hello,
+            Hello,
 
-This email is from Email Service {service_id} (TCP Server).
+            This email is from Email Service {service_id} (TCP Server).
 
-Export Details:
-- Topic ID: {file_info['topic_id']}
-- Filename: {filename}
-- Generated: {file_info.get('created_at', 'N/A')}
-- Size: {file_info['size']} bytes
+            Export Details:
+            - Topic ID: {file_info['topic_id']}
+            - Filename: {filename}
+            - Generated: {file_info.get('created_at', 'N/A')}
+            - Size: {file_info['size']} bytes
 
-Received via TCP payload from Export Service.
+            Received via TCP payload from Export Service.
 
-Excel file is attached.
+            Excel file is attached.
 
-Best regards,
-Email Service {service_id}
-Interview API System
+            Best regards,
+            Email Service {service_id}
+            Interview API System
         """
 
         # Send to each recipient
